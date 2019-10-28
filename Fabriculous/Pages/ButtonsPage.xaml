@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Fabriculous.Pages.ButtonsPage"
+             BackgroundColor="White"
+             Title="Buttons"
+>
+    <ContentPage.Resources>
+        <StyleSheet>
+            <![CDATA[
+                ^Label {
+                    -xf-font-attributes: bold;
+                    font-size: 24;
+                    margin-bottom: 20;
+                }
+                
+                ^Button {
+                    
+                }
+                
+                .buttonEnabled {
+                    -xf-isEnabled: true;
+                }
+                
+                .buttonDisable {
+                    -xf-isEnabled: false;
+                }
+            ]]>
+        </StyleSheet>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid Margin="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <StackLayout Orientation="Vertical">
+                    <Label Text="Default" TextDecorations="Underline" />
+                    <Button Text="Enabled"/>
+                    <Button Text="Disabled"
+                            IsEnabled="False"
+                            class="buttonDisabled"
+                    />
+                    <Button ImageSource="tab_feed.png" Text="Enabled"/>
+                    <Button ImageSource="tab_feed.png" Text="Disabled" IsEnabled="False"/>
+                    
+                    <Button Text="Enabled" BackgroundColor="{StaticResource blueDark}"  />
+                    <Button Text="Disabled" BackgroundColor="{StaticResource blueDark}" IsEnabled="false"  />
+                    
+                    <Button Text="Enabled" TextColor="{StaticResource blueDark}" />
+                    <Button Text="Disabled" TextColor="{StaticResource blueDark}" IsEnabled="false" />
+                    
+                    <Button Text="Enabled" ImageSource="tab_feed" TextColor="{StaticResource blueDark}" />
+                    <Button Text="Disabled" ImageSource="tab_feed" TextColor="{StaticResource blueDark}" IsEnabled="false" />
+                
+                    <Button Text="Enabled" BackgroundColor="{StaticResource redDark}" BorderColor="{StaticResource magenta}" BorderWidth="1"  />
+                    <Button Text="Disabled" BackgroundColor="{StaticResource redDark}" BorderColor="{StaticResource magenta}" BorderWidth="1" IsEnabled="false"  />
+                </StackLayout>
+                
+                <StackLayout Orientation="Vertical"
+                             Grid.Column="1"
+                             Visual="Material"
+                >
+                    <Label Text="Material"/>
+                    <Button Text="Enabled" 
+                            class="buttonEnabled"
+                             />
+                    <Button Text="Disabled"
+                            IsEnabled="False"
+                            class="buttonDisabled"
+                    />
+                    
+                    <Button ImageSource="tab_feed.png" Text="Enabled"/>
+                    <Button ImageSource="tab_feed.png" Text="Disabled" IsEnabled="False"/>
+                    
+                    <Button Text="Enabled" BackgroundColor="{StaticResource blueDark}"  />
+                    <Button Text="Disabled" BackgroundColor="{StaticResource blueDark}" IsEnabled="false"  />
+                    
+                    <Button Text="Enabled" TextColor="{StaticResource blueDark}" />
+                    <Button Text="Disabled" TextColor="{StaticResource blueDark}" IsEnabled="false" />
+                    
+                    <Button Text="Enabled" ImageSource="tab_feed" TextColor="{StaticResource blueDark}" />
+                    <Button Text="Disabled" ImageSource="tab_feed" TextColor="{StaticResource blueDark}" IsEnabled="false" />
+                    
+                    <Button Text="Enabled" BackgroundColor="{StaticResource redDark}" BorderColor="{StaticResource magenta}" BorderWidth="1"  />
+                    <Button Text="Disabled" BackgroundColor="{StaticResource redDark}" BorderColor="{StaticResource magenta}" BorderWidth="1" IsEnabled="false"  />
+                </StackLayout>
+                
+                <StackLayout Orientation="Vertical"
+                             Grid.Column="2"
+                             Visual="Fabric"
+                             >
+                    <Label Text="Fabric"/>
+                    
+                    <Button Text="Enabled" />
+                    <Button Text="Disabled"
+                            IsEnabled="False"/>
+                    
+                    <Button ImageSource="tab_feed.png" Text="Enabled"/>
+                    <Button ImageSource="tab_feed.png" Text="Disabled" IsEnabled="False"/>
+                    
+                    <Button Text="Enabled" BackgroundColor="{StaticResource blueDark}"  />
+                    <Button Text="Disabled" BackgroundColor="{StaticResource blueDark}" IsEnabled="false"  />
+                    
+                    <Button Text="Enabled" TextColor="{StaticResource blueDark}" />
+                    <Button Text="Disabled" TextColor="{StaticResource blueDark}" IsEnabled="false" />
+                    
+                    <Button Text="Enabled" ImageSource="tab_feed" TextColor="{StaticResource blueDark}" />
+                    <Button Text="Disabled" ImageSource="tab_feed" TextColor="{StaticResource blueDark}" IsEnabled="false" />
+                    
+                    <Button Text="Enabled" BackgroundColor="{StaticResource redDark}" BorderColor="{StaticResource magenta}" BorderWidth="1"  />
+                    <Button Text="Disabled" BackgroundColor="{StaticResource redDark}" BorderColor="{StaticResource magenta}" BorderWidth="1" IsEnabled="false"  />
+                </StackLayout>
+                
+                
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

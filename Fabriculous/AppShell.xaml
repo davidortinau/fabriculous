@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+       xmlns:d="http://xamarin.com/schemas/2014/forms/design" 
+       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+       mc:Ignorable="d" 
+       xmlns:pages="clr-namespace:Fabriculous.Pages" 
+       Title="Fabriculous" x:Class="Fabriculous.AppShell">
+    <!-- 
+        Styles and Resources 
+    -->
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Color x:Key="NavigationPrimary">#2196F3</Color>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="White" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="White" />
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarTitleColor" Value="White" />
+            </Style>
+            <Style TargetType="ShellItem" BasedOn="{StaticResource BaseStyle}" />
+        </ResourceDictionary>
+    </Shell.Resources>
+    
+    <!-- <ShellContent Title="Custom Rendereres" ContentTemplate="{DataTemplate pages:CustomRenderers}" Style="{StaticResource BaseStyle}"/> -->
+    <!-- <ShellContent Title="ActivityIndicator" ContentTemplate="{DataTemplate pages:ActivityIndicatorsPage}" Style="{StaticResource BaseStyle}"/> -->
+    <ShellContent Title="Button" ContentTemplate="{DataTemplate pages:ButtonsPage}" Style="{StaticResource BaseStyle}"/>
+    <!-- <ShellContent Title="CardView" ContentTemplate="{DataTemplate pages:CardsPage}" Style="{StaticResource BaseStyle}"/> -->
+    <!-- <ShellContent Title="Editors" ContentTemplate="{DataTemplate pages:Editors}" Style="{StaticResource BaseStyle}"/> -->
+    <!-- <ShellContent Title="Entry" ContentTemplate="{DataTemplate pages:EntriesPage}" Style="{StaticResource BaseStyle}"/> -->
+    <!-- <ShellContent Title="Pickers" ContentTemplate="{DataTemplate pages:Pickers}" Style="{StaticResource BaseStyle}"/> -->
+    <!-- <ShellContent Title="ProgressBar" ContentTemplate="{DataTemplate pages:ProgressPage}" Style="{StaticResource BaseStyle}"/> -->
+    <!-- <ShellContent Title="Slider" ContentTemplate="{DataTemplate pages:SlidersPage}" Style="{StaticResource BaseStyle}"/> -->
+    <!-- <ShellContent Title="Steppers" ContentTemplate="{DataTemplate pages:SteppersPage}" Style="{StaticResource BaseStyle}"/> -->
+    <!-- <ShellContent Title="Calibrate" ContentTemplate="{DataTemplate pages:Calibrate}" Style="{StaticResource BaseStyle}"/> -->
+
+    
+    
+</Shell>

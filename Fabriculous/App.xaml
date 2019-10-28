@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Fabriculous.App">
+    <Application.Resources>
+        <Color x:Key="yellow">#ffb900</Color>
+        <Color x:Key="yellowLight">#fff100</Color>
+        <Color x:Key="orange">#d83b01</Color>
+        <Color x:Key="orangeLight">#ea4300</Color>
+        <Color x:Key="orangeLighter">#ff8c00</Color>
+        <Color x:Key="redDark">#a80000</Color>
+        <Color x:Key="red">#e81123</Color>
+        <Color x:Key="magentaDark">#5c005c</Color>
+        <Color x:Key="magenta">#b4009e</Color>
+        <Color x:Key="magentaLight">#c239b3</Color>
+        <Color x:Key="purpleDark">#32145a</Color>
+        <Color x:Key="purple">#5c2d91</Color>
+        <Color x:Key="purpleLight">#b4a0ff</Color>
+        <Color x:Key="blueDark">#002050</Color>
+        <Color x:Key="blueMid">#00188f</Color>
+        <Color x:Key="blue">#0078d4</Color>
+        <Color x:Key="blueLight">#00bcf2</Color>
+        <Color x:Key="tealDark">#004b50</Color>
+        <Color x:Key="teal">#008272</Color>
+        <Color x:Key="tealLight">#00b294</Color>
+        <Color x:Key="greenDark">#004b1c</Color>
+        <Color x:Key="green">#107c10</Color>
+        <Color x:Key="greenLight">#bad80a</Color>
+
+
+    </Application.Resources>
+</Application>
