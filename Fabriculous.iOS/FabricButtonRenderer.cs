@@ -2,21 +2,67 @@
 using System.ComponentModel;
 using CoreGraphics;
 using Fabriculous.iOS;
+using MaterialComponents;
 using Microsoft.OfficeUIFabric;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using Button = Xamarin.Forms.Button;
 using FButton = Microsoft.OfficeUIFabric.MSButton;
 
 [assembly: ExportRenderer(typeof(Xamarin.Forms.Button), typeof(FabricButtonRenderer), new[] { typeof(Fabriculous.FabricVisual) })]
 namespace Fabriculous.iOS
 {
-    public class FabricButtonRenderer : ViewRenderer<Button, FButton>
+    public class FabricButtonRenderer : ViewRenderer<Button, FButton>, IImageVisualElementRenderer, IButtonLayoutRenderer
     {
-        //private ButtonScheme _defaultButtonScheme;
+        bool _isDisposed;
+        
+        UIColor _buttonTextColorDefaultDisabled;
+        UIColor _buttonTextColorDefaultHighlighted;
+        UIColor _buttonTextColorDefaultNormal;
+
+//        ButtonScheme _defaultButtonScheme;
+//        ButtonScheme _buttonScheme;
+        ButtonLayoutManager _buttonLayoutManager;
+
+        public FabricButtonRenderer()
+        {
+            _buttonLayoutManager = new ButtonLayoutManager(this,
+                preserveInitialPadding: true,
+                spacingAdjustsPadding: false,
+                borderAdjustsPadding: false,
+                collapseHorizontalPadding: true);
+        }
+        
+        protected override void Dispose(bool disposing)
+        {
+            if (_isDisposed)
+                return;
+
+            if (Control != null)
+            {
+                Control.TouchUpInside -= OnButtonTouchUpInside;
+                Control.TouchDown -= OnButtonTouchDown;
+                _buttonLayoutManager?.Dispose();
+                _buttonLayoutManager = null;
+            }
+
+            _isDisposed = true;
+
+            base.Dispose(disposing);
+        }
+        
+        public override CGSize SizeThatFits(CGSize size)
+        {
+            var measured = base.SizeThatFits(size);
+            return _buttonLayoutManager?.SizeThatFits(size, measured) ?? measured;
+        }
 
         protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.Button> e)
         {
+//            _buttonScheme?.Dispose();
+//            _buttonScheme = CreateButtonScheme();
+            
             base.OnElementChanged(e);
             //Element.Text = "I am a Custom Visual Renderer";
 
@@ -24,33 +70,48 @@ namespace Fabriculous.iOS
             {
                 if (Control == null)
                 {
-                    //_defaultButtonScheme = CreateButtonScheme();
+//                    _defaultButtonScheme = CreateButtonScheme();
 
                     SetNativeControl(CreateNativeControl());
                     
-                    
-                    Control.SetTitle(Element.Text,UIKit.UIControlState.Normal);
-//                    Control.BackgroundColor = Element.BackgroundColor.ToUIColor();
-                    Control.SetTitleColor(Element.TextColor.ToUIColor(), UIKit.UIControlState.Normal);
+                    SetControlPropertiesFromProxy();
+
+                    _buttonTextColorDefaultNormal = Control.TitleColor(UIControlState.Normal);
+                    _buttonTextColorDefaultHighlighted = Control.TitleColor(UIControlState.Highlighted);
+                    _buttonTextColorDefaultDisabled = Control.TitleColor(UIControlState.Disabled);
+
                     Control.TouchUpInside += OnButtonTouchUpInside;
-                    Control.TouchDown += OnButtonTouchDown;                    
+                    Control.TouchDown += OnButtonTouchDown;
+                    
                 }
 
                 UpdateFont();
                 UpdateCornerRadius();
                 UpdateBorder();
-                UpdateBackgroundColor();
                 UpdateTextColor();
+                _buttonLayoutManager?.Update();
                 ApplyTheme();
             }
+        }
+        
+        protected virtual ButtonScheme CreateButtonScheme()
+        {
+            return new ButtonScheme
+            {
+//                ColorScheme = MaterialColors.Light.CreateColorScheme(),
+                ShapeScheme = new ShapeScheme(),
+                TypographyScheme = new TypographyScheme(),
+            };
         }
 
         protected virtual void ApplyTheme()
         {
 //            ContainedButtonThemer.ApplyScheme(_buttonScheme, Control);
+//            Control.BackgroundColor = _buttonScheme.ColorScheme.BackgroundColor;
+            
 //
 //            // Colors have to be re-applied to Character spacing
-//            _buttonLayoutManager?.UpdateText();
+            _buttonLayoutManager?.Update();
         }
 
         protected override FButton CreateNativeControl() => new FButton(Microsoft.OfficeUIFabric.MSButtonStyle.PrimaryFilled);
@@ -86,13 +147,10 @@ namespace Fabriculous.iOS
             {
                 UpdateCornerRadius();
                 updatedTheme = true;
-            }else if (e.PropertyName == Button.BackgroundColorProperty.PropertyName)
-            {
-                UpdateBackgroundColor();
             }
 
-            //if (updatedTheme)
-            //    ApplyTheme();
+            if (updatedTheme)
+                ApplyTheme();
         }
 
         protected override void SetAccessibilityLabel()
@@ -110,8 +168,8 @@ namespace Fabriculous.iOS
             base.SetAccessibilityLabel();
         }
 
-        protected override void SetBackgroundColor(Color color)
-        {
+//        protected override void SetBackgroundColor(Color color)
+//        {
 //            if (_buttonScheme?.ColorScheme is SemanticColorScheme colorScheme)
 //            {
 //                if (color.IsDefault)
@@ -126,8 +184,11 @@ namespace Fabriculous.iOS
 //                    colorScheme.PrimaryColor = uiColor;
 //                    colorScheme.OnSurfaceColor = uiColor;
 //                }
+//                
+//                if (Control != null)
+//                    ApplyTheme();
 //            }
-        }
+//        }
 
         private CGColor _defaultBorderColor;
 
@@ -176,42 +237,54 @@ namespace Fabriculous.iOS
         {
 //            if (_buttonScheme.TypographyScheme is TypographyScheme typographyScheme)
 //            {
-//                if (Element.Font == (Font)Button.FontProperty.DefaultValue)
+//                if (Element.Font == (Font) Button.FontProperty.DefaultValue)
 //                    typographyScheme.Button = _defaultButtonScheme.TypographyScheme.Button;
 //                else
-//                    typographyScheme.Button = Element.ToUIFont();
+//                    typographyScheme.Button = Element.Font.ToUIFont();
 //            }
         }
 
         void UpdateTextColor()
         {
-                Color textColor = Element.TextColor;
-
-                if (textColor.IsDefault)
-                    Control.SetTitleColor(MSColors.ForegroundRegular, UIKit.UIControlState.Normal);
-                else
-                    Control.SetTitleColor(textColor.ToUIColor(), UIKit.UIControlState.Normal);
-
-        }
-
-        void UpdateBackgroundColor()
-        {
-            Color backgroundColor = Element.BackgroundColor;
-            
-            if(backgroundColor.IsDefault)
-                Control.BackgroundColor = MSColors.Primary;
+            if (Element.TextColor == Color.Default)
+            {
+                Control.SetTitleColor(_buttonTextColorDefaultNormal, UIControlState.Normal);
+                Control.SetTitleColor(_buttonTextColorDefaultHighlighted, UIControlState.Highlighted);
+                Control.SetTitleColor(_buttonTextColorDefaultDisabled, UIControlState.Disabled);
+            }
             else
-                Control.BackgroundColor = Element.BackgroundColor.ToUIColor();
+            {
+                var color = Element.TextColor.ToUIColor();
+
+                Control.SetTitleColor(color, UIControlState.Normal);
+                Control.SetTitleColor(color, UIControlState.Highlighted);
+                Control.SetTitleColor(color, UIControlState.Disabled);
+
+                Control.TintColor = color;
+            }
         }
+        
+        void SetControlPropertiesFromProxy()
+        {
+            foreach (UIControlState uiControlState in s_controlStates)
+            {
+                Control.SetTitleColor(UIButton.Appearance.TitleColor(uiControlState), uiControlState); // if new values are null, old values are preserved.
+                Control.SetTitleShadowColor(UIButton.Appearance.TitleShadowColor(uiControlState), uiControlState);
+                Control.SetBackgroundImage(UIButton.Appearance.BackgroundImageForState(uiControlState), uiControlState);
+            }
+        }
+        
+        static readonly UIControlState[] s_controlStates = { UIControlState.Normal, UIControlState.Highlighted, UIControlState.Disabled };
 
-        //// IImageVisualElementRenderer
-        //bool IImageVisualElementRenderer.IsDisposed => _isDisposed;
-        //void IImageVisualElementRenderer.SetImage(UIImage image) => _buttonLayoutManager.SetImage(image);
-        //UIImageView IImageVisualElementRenderer.GetImage() => Control?.ImageView;
 
-        //// IButtonLayoutRenderer
-        //UIButton IButtonLayoutRenderer.Control => Control;
-        //IImageVisualElementRenderer IButtonLayoutRenderer.ImageVisualElementRenderer => this;
-        //nfloat IButtonLayoutRenderer.MinimumHeight => _buttonScheme?.MinimumHeight ?? -1;
+        // IImageVisualElementRenderer
+        bool IImageVisualElementRenderer.IsDisposed => _isDisposed;
+        void IImageVisualElementRenderer.SetImage(UIImage image) => _buttonLayoutManager.SetImage(image);
+        UIImageView IImageVisualElementRenderer.GetImage() => Control?.ImageView;
+
+        // IButtonLayoutRenderer
+        UIButton IButtonLayoutRenderer.Control => Control;
+        IImageVisualElementRenderer IButtonLayoutRenderer.ImageVisualElementRenderer => this;
+        nfloat IButtonLayoutRenderer.MinimumHeight => -1;
     }
 }

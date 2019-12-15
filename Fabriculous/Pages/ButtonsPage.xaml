@@ -31,6 +31,7 @@
     
     <ContentPage.Content>
         <ScrollView>
+
             <Grid Margin="15">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -89,13 +90,13 @@
                     <Button Text="Enabled" BackgroundColor="{StaticResource redDark}" BorderColor="{StaticResource magenta}" BorderWidth="1"  />
                     <Button Text="Disabled" BackgroundColor="{StaticResource redDark}" BorderColor="{StaticResource magenta}" BorderWidth="1" IsEnabled="false"  />
                 </StackLayout>
-                
+
                 <StackLayout Orientation="Vertical"
                              Grid.Column="2"
                              Visual="Fabric"
                              >
                     <Label Text="Fabric"/>
-                    
+
                     <Button Text="Enabled" />
                     <Button Text="Disabled"
                             IsEnabled="False"/>
