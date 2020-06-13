@@ -74,7 +74,7 @@ namespace Fabriculous.iOS
 
                     SetNativeControl(CreateNativeControl());
                     
-                    SetControlPropertiesFromProxy();
+//                    SetControlPropertiesFromProxy();
 
                     _buttonTextColorDefaultNormal = Control.TitleColor(UIControlState.Normal);
                     _buttonTextColorDefaultHighlighted = Control.TitleColor(UIControlState.Highlighted);
@@ -114,7 +114,11 @@ namespace Fabriculous.iOS
             _buttonLayoutManager?.Update();
         }
 
-        protected override FButton CreateNativeControl() => new FButton(Microsoft.OfficeUIFabric.MSButtonStyle.PrimaryFilled);
+        protected override FButton CreateNativeControl()
+        {
+            _localButton = new FButton(Microsoft.OfficeUIFabric.MSButtonStyle.PrimaryFilled);
+            return _localButton;
+        }
 
         void OnButtonTouchUpInside(object sender, EventArgs eventArgs)
         {
@@ -275,6 +279,7 @@ namespace Fabriculous.iOS
         }
         
         static readonly UIControlState[] s_controlStates = { UIControlState.Normal, UIControlState.Highlighted, UIControlState.Disabled };
+        private FButton _localButton;
 
 
         // IImageVisualElementRenderer

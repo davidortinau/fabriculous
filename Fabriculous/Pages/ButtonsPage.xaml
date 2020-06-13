@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fabriculous="clr-namespace:Fabriculous;assembly=Fabriculous"
              x:Class="Fabriculous.Pages.ButtonsPage"
              BackgroundColor="White"
              Title="Buttons"
@@ -96,6 +97,8 @@
                              Visual="Fabric"
                              >
                     <Label Text="Fabric"/>
+                    
+                    <fabriculous:MSButton/>
 
                     <Button Text="Enabled" />
                     <Button Text="Disabled"
